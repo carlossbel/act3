@@ -1,233 +1,254 @@
-# 🚀 Guía de Instalación Rápida - Coffeel PWA
+# ☕ Coffeel - Progressive Web App
 
-## 📋 Checklist de Archivos
+Coffeel es una Progressive Web App (PWA) para amantes del café con funcionalidad offline completa.
 
-Asegúrate de tener esta estructura:
+**Demo:** [https://coffelpwa.netlify.app/]  
+**Repositorio:** https://github.com/carlossbel/act3
+
+---
+
+## 📋 Características
+
+- **App Shell**: Header, sidebar, footer y 4 vistas dinámicas
+- **Offline First**: Funciona sin conexión mediante Service Workers
+- **Instalable**: Se puede instalar como app nativa
+- **Responsive**: Diseño adaptable a todos los dispositivos
+- **Contenido dinámico**:
+  - Catálogo de productos (granos, equipos, accesorios)
+  - Métodos de preparación (V60, Prensa Francesa, Espresso, Aeropress)
+  - Diario cafetero (lista de deseos, recetas, registro de catas)
+
+---
+
+## 🏗️ Arquitectura
+
+### Estructura del proyecto
 
 ```
 coffeel-pwa/
 ├── public/
-│   ├── service-worker.js ✅
-│   └── manifest.json ✅
+│   ├── service-worker.js      # Caché offline
+│   ├── manifest.json           # Configuración PWA
+│   └── icon-*.png             # Íconos múltiples tamaños
 ├── src/
-│   ├── App.jsx ✅
-│   ├── ServiceWorker.js ✅
-│   ├── main.jsx ✅
-│   └── index.css ✅
-├── index.html ✅
-├── package.json ✅
-├── vite.config.js ✅
-├── netlify.toml ✅
-└── README.md ✅
+│   ├── App.jsx                # Componente principal
+│   ├── ServiceWorker.js       # Registro del SW
+│   ├── main.jsx               # Entry point
+│   └── index.css              # Estilos con Tailwind
+├── index.html                 # HTML con splash screen
+├── package.json
+├── vite.config.js
+├── tailwind.config.js
+├── postcss.config.js
+└── netlify.toml
 ```
 
-**IMPORTANTE**: Con Tailwind CSS v4 + Vite Plugin:
-- ❌ NO necesitas `tailwind.config.js`
-- ❌ NO necesitas `postcss.config.js`
-- ✅ Todo se configura en `index.css` con `@theme`
+### App Shell Pattern
+
+1. **Shell estático** (cacheado): Estructura básica de la UI
+2. **Contenido dinámico**: Vistas que se cargan según navegación
+3. **Service Worker**: Cache-first strategy con network fallback
+
+### Estrategia de caché
+
+- **Cache First**: Recursos estáticos se sirven desde caché
+- **Network Fallback**: Si falla la red, usa contenido cacheado
+- **Runtime Cache**: Recursos nuevos se almacenan automáticamente
 
 ---
 
-## 🛠️ Instalación
+## 🚀 Instalación y Ejecución
 
-### 1. Instalar dependencias
+### Requisitos
+- Node.js 18+
+- npm
+
+### Comandos
 
 ```bash
+# Clonar repositorio
+git clone https://github.com/carlossbel/act3.git
+cd act3
+
+# Instalar dependencias
 npm install
-```
 
-### 2. Ejecutar en desarrollo
-
-```bash
-npm run dev
-```
-
-La app se abrirá en: `http://localhost:5173`
-
-### 3. Probar el build
-
-```bash
-npm run build
-npm run preview
-```
-
----
-
-## 🎨 Generar Íconos
-
-Necesitas crear los íconos para la PWA. Usa una de estas herramientas:
-
-### Opción 1: PWA Asset Generator (Recomendado)
-```bash
-npm install -g pwa-asset-generator
-
-# Crea un logo.svg o logo.png de 512x512px
-pwa-asset-generator logo.png ./public --icon-only
-```
-
-### Opción 2: Online
-1. Ve a https://realfavicongenerator.net/
-2. Sube un logo cuadrado (mínimo 512x512px)
-3. Descarga todos los tamaños
-4. Coloca los archivos en `/public/`
-
-### Tamaños necesarios:
-- icon-72.png
-- icon-96.png
-- icon-128.png
-- icon-144.png
-- icon-152.png
-- icon-192.png
-- icon-384.png
-- icon-512.png
-
----
-
-## 🧪 Probar Modo Offline
-
-### Método 1: Chrome DevTools
-1. Abre la app: `http://localhost:5173`
-2. Presiona `F12`
-3. Ve a Network tab
-4. Marca "Offline"
-5. Recarga (`Ctrl+R`)
-6. ✅ Debe funcionar sin internet
-
-### Método 2: Application Tab
-1. `F12` → Application
-2. Service Workers
-3. Verifica que esté "activated"
-4. Marca "Offline"
-
----
-
-## 🌐 Deploy en Netlify
-
-### Método 1: Git (Recomendado)
-
-1. **Sube tu proyecto a GitHub**
-```bash
-git init
-git add .
-git commit -m "Initial commit - Coffeel PWA"
-git branch -M main
-git remote add origin <tu-repo-url>
-git push -u origin main
-```
-
-2. **Conecta en Netlify**
-- Ve a https://app.netlify.com
-- Click en "Add new site" → "Import an existing project"
-- Conecta con GitHub
-- Selecciona tu repositorio
-- Netlify detectará automáticamente la configuración del `netlify.toml`
-- Click en "Deploy"
-
-### Método 2: Drag & Drop
-
-1. **Build local**
-```bash
-npm run build
-```
-
-2. **Deploy manual**
-- Ve a https://app.netlify.com
-- Arrastra la carpeta `/dist` al área de deploy
-- ✅ Listo!
-
----
-
-## 🔧 Solución de Problemas
-
-### Pantalla en blanco
-```bash
-# 1. Verifica la consola del navegador (F12)
-# 2. Verifica que todos los archivos estén en su lugar
-# 3. Limpia caché y reinstala
-rm -rf node_modules package-lock.json
-npm install
-npm run dev
-```
-
-### Service Worker no funciona en desarrollo
-```javascript
-// En src/main.jsx, descomenta esta línea:
-if (import.meta.env.DEV) {
-  registerServiceWorker();
-}
-```
-
-### Cambios no se reflejan
-```bash
-# Hard reload
-Ctrl + Shift + R (Windows/Linux)
-Cmd + Shift + R (Mac)
-
-# O limpia caché del Service Worker
-# DevTools → Application → Clear storage → Clear site data
-```
-
-### Error de Tailwind
-```bash
-# Verifica que tienes la versión correcta
-npm list tailwindcss @tailwindcss/vite
-
-# Debe ser v4.0.0-alpha.25 o superior
-```
-
----
-
-## 📝 Comandos Útiles
-
-```bash
 # Desarrollo
 npm run dev
+# http://localhost:5173
 
 # Build producción
 npm run build
 
 # Preview del build
 npm run preview
-
-# Linter
-npm run lint
-
-# Actualizar dependencias
-npm update
-
-# Verificar versiones
-npm list
 ```
 
 ---
 
-## ✅ Verificación Final
+## 🧪 Probar Funcionamiento Offline
 
-Antes de deployar, verifica:
+### Método 1: Chrome DevTools (Recomendado)
 
-- [ ] `npm run build` funciona sin errores
-- [ ] Service Worker se registra correctamente
-- [ ] App funciona offline
-- [ ] Todos los íconos están en `/public/`
-- [ ] `manifest.json` tiene los paths correctos
-- [ ] `netlify.toml` está en la raíz
-- [ ] No hay errores en la consola
-- [ ] La app es responsive (mobile/tablet/desktop)
+1. Abre la app en Chrome
+2. Presiona `F12` (DevTools)
+3. Ve a **Network** tab
+4. Marca **Offline**
+5. Recarga la página (`Ctrl+R` o `Cmd+R`)
+6. ✅ La app debe funcionar completamente
+
+### Método 2: Application Tab
+
+1. `F12` → **Application**
+2. **Service Workers** en el menú lateral
+3. Verifica estado: **activated and running**
+4. Marca **Offline**
+5. Navega por las diferentes vistas
+
+### Método 3: Modo Avión
+
+1. Visita la app online al menos una vez
+2. Activa modo avión / desconecta WiFi
+3. Abre/recarga la aplicación
+4. ✅ Debe funcionar sin conexión
+
+### Verificar el Service Worker
+
+**En DevTools > Application:**
+
+- **Service Workers**: Estado "activated"
+- **Cache Storage**: 
+  - `coffeel-v1.0.0` (App Shell)
+  - `coffeel-runtime` (recursos adicionales)
+- **Manifest**: Datos correctos de la PWA
+
+**Consola de JavaScript:**
+```javascript
+// Verificar registro del Service Worker
+navigator.serviceWorker.controller
+// Debe retornar un objeto ServiceWorker
+
+// Ver estado de conexión
+navigator.onLine
+// true = online, false = offline
+```
 
 ---
 
-## 🎉 Listo!
+## 📱 Instalar como App
 
-Tu PWA Coffeel está lista para producción. 
+### Escritorio (Chrome/Edge)
+1. Icono ⊕ en la barra de direcciones
+2. Click "Instalar Coffeel"
+3. Se abre en ventana independiente
 
-**URL de ejemplo después del deploy:**
-`https://coffeel.netlify.app`
+### Android
+1. Menú (⋮) → "Agregar a pantalla de inicio"
+2. Confirmar instalación
+
+### iOS/Safari
+1. Botón compartir → "Agregar a pantalla de inicio"
+2. Confirmar
 
 ---
 
-## 📞 Soporte
+## 🌐 Deploy en Netlify
 
-Si tienes problemas:
-1. Revisa la consola del navegador (F12)
-2. Verifica los logs de build en Netlify
-3. Consulta el README.md principal para más detalles
+### Automático (Recomendado)
+
+1. Conecta repositorio en https://app.netlify.com
+2. Netlify detecta `netlify.toml` automáticamente
+3. Build: `npm run build`
+4. Publish: `dist`
+5. Deploy
+
+### Manual
+
+```bash
+npm run build
+# Arrastra carpeta /dist a Netlify
+```
+
+### Forzar rebuild
+
+```bash
+git commit --allow-empty -m "Trigger rebuild"
+git push origin main
+```
+
+O en Netlify: **Deploys** → **Trigger deploy** → **Clear cache and deploy site**
+
+---
+
+## 🛠️ Tecnologías
+
+- **React 18** - Framework UI
+- **Vite 5** - Build tool
+- **Tailwind CSS 3** - Estilos utility-first
+- **Lucide React** - Iconos
+- **Service Workers API** - Funcionalidad offline
+- **Web App Manifest** - Instalabilidad PWA
+
+---
+
+## 🐛 Solución de Problemas
+
+### Service Worker no se registra
+- Usa HTTPS o localhost
+- Verifica que `/service-worker.js` exista en `public/`
+- Revisa consola del navegador
+
+### Cambios no se reflejan
+- Incrementa versión en `service-worker.js` (`CACHE_NAME`)
+- DevTools > Application > Clear storage
+- Hard reload: `Ctrl+Shift+R`
+
+### No funciona offline
+- Visita la página online primero
+- Verifica SW activado en DevTools
+- Comprueba caché en Application > Cache Storage
+
+### Sin estilos en Netlify
+- Verifica que existan: `tailwind.config.js`, `postcss.config.js`
+- Clear cache en Netlify y redeploy
+- Revisa logs de build en Netlify
+
+---
+
+## 📄 Configuración
+
+### Service Worker (`public/service-worker.js`)
+```javascript
+const CACHE_NAME = 'coffeel-v1.0.0'; // Incrementar para actualizar
+const APP_SHELL = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+];
+```
+
+### Manifest (`public/manifest.json`)
+```json
+{
+  "name": "Coffeel",
+  "theme_color": "#78350f",
+  "background_color": "#92400e"
+}
+```
+
+---
+
+## 👤 Autor
+
+Carlos - [GitHub](https://github.com/carlossbel)
+
+Proyecto académico - Actividad 3
+
+---
+
+## 📚 Referencias
+
+- [PWA Documentation](https://web.dev/progressive-web-apps/)
+- [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
+- [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest)
+```
