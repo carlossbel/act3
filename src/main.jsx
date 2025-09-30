@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
 import { registerServiceWorker } from './ServiceWorker';
+import './index.css';
 
 // Renderizar la aplicación
 createRoot(document.getElementById('root')).render(

@@ -3,15 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Variables de color personalizadas */
-:root {
-  --coffee-dark: #451a03;
-  --coffee-medium: #78350f;
-  --coffee-light: #92400e;
-  --cream: #fef3c7;
-  --cream-dark: #fde68a;
-}
-
 /* Estilos base */
 * {
   margin: 0;
@@ -21,9 +12,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #ffffff;
@@ -33,11 +22,11 @@ body {
 
 /* Clases de estado de conexión */
 body.offline {
-  /* Puedes agregar estilos específicos para modo offline */
+  /* Estilos específicos para modo offline */
 }
 
 body.online {
-  /* Puedes agregar estilos específicos para modo online */
+  /* Estilos específicos para modo online */
 }
 
 /* Scrollbar personalizado */
@@ -71,8 +60,23 @@ body.online {
   }
 }
 
+@keyframes slideUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .fade-in {
   animation: fadeIn 0.3s ease-in;
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease;
 }
 
 /* Estilos para focus accesibles */
