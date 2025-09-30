@@ -1,0 +1,110 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables de color personalizadas */
+:root {
+  --coffee-dark: #451a03;
+  --coffee-medium: #78350f;
+  --coffee-light: #92400e;
+  --cream: #fef3c7;
+  --cream-dark: #fde68a;
+}
+
+/* Estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
+  color: #262626;
+  overflow-x: hidden;
+}
+
+/* Clases de estado de conexión */
+body.offline {
+  /* Puedes agregar estilos específicos para modo offline */
+}
+
+body.online {
+  /* Puedes agregar estilos específicos para modo online */
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4d4d4;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a3a3a3;
+}
+
+/* Animaciones suaves */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Estilos para focus accesibles */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #78350f;
+  outline-offset: 2px;
+}
+
+/* Transiciones suaves globales */
+button,
+a {
+  transition: all 0.2s ease;
+}
+
+/* Mejoras para checkboxes */
+input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: #78350f;
+}
+
+/* Estilos de impresión */
+@media print {
+  body {
+    background: white;
+  }
+  
+  header,
+  footer,
+  aside,
+  button {
+    display: none !important;
+  }
+}
